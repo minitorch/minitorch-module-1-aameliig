@@ -22,8 +22,14 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     Returns:
         An approximation of $f'_i(x_0, \ldots, x_{n-1})$
     """
-    # TODO: Implement for Task 1.1.
-    raise NotImplementedError("Need to implement for Task 1.1")
+    vals_1 = list(vals)
+    vals_1[arg] += epsilon
+
+    vals_2 = list(vals)
+    vals_2[arg] -= epsilon
+
+    slope = (f(*vals_1) - f(*vals_2)) / (2 * epsilon)
+    return slope
 
 
 variable_count = 1
@@ -61,8 +67,21 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     Returns:
         Non-constant Variables in topological order starting from the right.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    visited = set()
+    result = []
+
+    def dfs(node: Variable) -> None:
+        if node.is_constant() or node.unique_id in visited:
+            return
+         
+        visited.add(node.unique_id)
+        for parent in node.parents:
+            dfs(parent)
+        
+        result.append(node)
+
+    dfs(variable)
+    return result[::-1]
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -76,8 +95,27 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    sorted_nodes = topological_sort(variable)
+    require_grad = {}
+    require_grad[variable.unique_id] = deriv
+
+    for node in sorted_nodes:
+        if node.unique_id not in require_grad:
+            continue
+        
+        grad = require_grad[node.unique_id]
+
+        if node.is_leaf():
+            node.accumulate_derivative(grad)
+            continue
+
+        chain = node.chain_rule(grad)
+
+        for hist_input, hist_grad in chain:
+            if hist_input.unique_id not in require_grad:
+                require_grad[hist_input.unique_id] = 0.0
+            
+            require_grad[hist_input.unique_id] += hist_grad
 
 
 @dataclass

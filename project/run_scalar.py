@@ -25,6 +25,9 @@ class Linear(minitorch.Module):
         super().__init__()
         self.weights = []
         self.bias = []
+        self.in_size = in_size
+        self.out_size = out_size
+
         for i in range(in_size):
             self.weights.append([])
             for j in range(out_size):
@@ -43,12 +46,12 @@ class Linear(minitorch.Module):
     def forward(self, inputs):
         outputs = []
 
-        for i in range(self.out_size):  
+        for j in range(self.out_size):  
             out = minitorch.Scalar(0)
-            for j in range(self.in_size):  
-                out += self.weights[j][i].value * inputs[j]
-            
-            outputs.append(out + self.bias[i].value)
+            for i in range(self.in_size):  
+                out = out + self.weights[i][j].value * inputs[i]
+
+            outputs.append(out +  self.bias[j].value)
         
         return outputs
 

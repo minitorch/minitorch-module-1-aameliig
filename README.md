@@ -31,8 +31,8 @@ Here are the pictures to task 1.5.
 
 * Simple dataset:
 <img src="https://github.com/minitorch/minitorch-module-1-aameliig/blob/master/task15/s1.png" width="50%">
-<img src="https://github.com/minitorch/minitorch-module-2-aameliig/blob/master/task15/s2.png" width="50%">
-<img src="https://github.com/minitorch/minitorch-module-3-aameliig/blob/master/task15/s3.png" width="50%">
+<img src="https://github.com/minitorch/minitorch-module-1-aameliig/blob/master/task15/s2.png" width="50%">
+<img src="https://github.com/minitorch/minitorch-module-1-aameliig/blob/master/task15/s3.png" width="50%">
 
 * Diagonal dataset:
 <img src="https://github.com/minitorch/minitorch-module-1-aameliig/blob/master/task15/s4.png" width="50%">
